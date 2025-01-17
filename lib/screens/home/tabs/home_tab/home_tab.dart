@@ -1,14 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_c13_friday/firebase/firebase_manager.dart';
 import 'package:todo_c13_friday/models/task_model.dart';
+import 'package:todo_c13_friday/providers/AuthProvider.dart';
 import 'package:todo_c13_friday/screens/home/tabs/home_tab/event_item.dart';
 
-class HomeTab extends StatelessWidget {
-  const HomeTab({super.key});
+class HomeTab extends StatefulWidget {
+  HomeTab({super.key});
+
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
+  List<String> eventCategories = [
+    "All",
+    "birthday",
+    "book_club",
+    "sport",
+    "eating",
+    "exhibtion",
+    "gaming",
+    "meeting",
+    "workshop",
+    "holiday",
+  ];
+
+  int selectedCategory = 0;
 
   @override
   Widget build(BuildContext context) {
+    var authProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -26,7 +50,7 @@ class HomeTab extends StatelessWidget {
                   .copyWith(fontSize: 14, color: Colors.white),
             ),
             Text(
-              "John Safwat",
+              "${authProvider.userModel?.name}",
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     color: Colors.white,
                     fontSize: 24,
@@ -85,16 +109,62 @@ class HomeTab extends StatelessWidget {
                   )
                 ],
               ),
+              SizedBox(
+                height: 6,
+              ),
               Container(
-                height: 70,
+                height: 40,
+                child: ListView.separated(
+                  separatorBuilder: (context, index) => SizedBox(
+                    width: 16,
+                  ),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        selectedCategory = index;
+                        setState(() {});
+                      },
+                      child: Container(
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: selectedCategory == index
+                                ? Colors.white
+                                : Colors.transparent,
+                            border: Border.all(color: Colors.white),
+                            borderRadius: BorderRadius.circular(
+                              18,
+                            ),
+                          ),
+                          child: Text(
+                            eventCategories[index],
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(
+                                    color: selectedCategory == index
+                                        ? Colors.black
+                                        : Colors.white),
+                          )),
+                    );
+                  },
+                  itemCount: eventCategories.length,
+                ),
               )
             ],
           ),
         ),
       ),
       body: StreamBuilder<QuerySnapshot<TaskModel>>(
-        stream: FirebaseManager.getEvents(),
+        stream: FirebaseManager.getEvents(eventCategories[selectedCategory]),
         builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(
+                child: Text("Something went wrong , please try again"));
+          }
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: ListView.separated(

@@ -43,9 +43,30 @@ class FirebaseManager {
     return docRef.set(model);
   }
 
-  static Stream<QuerySnapshot<TaskModel>> getEvents() {
+  static Stream<QuerySnapshot<TaskModel>> getEvents(String categoryName) {
     var collection = getTasksCollection();
-    return collection.orderBy("date").snapshots();
+    if (categoryName == "All") {
+      return collection
+          .orderBy(
+            "date",
+          )
+          .where("userId", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .snapshots();
+    } else {
+      return collection
+          .orderBy(
+            "date",
+          )
+          .where("userId", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .where("category", isEqualTo: categoryName)
+          .snapshots();
+    }
+  }
+
+  static Future<UserModel?> readUserData(String id) async {
+    var collection = getUserCollection();
+    DocumentSnapshot<UserModel> snapShot = await collection.doc(id).get();
+    return snapShot.data();
   }
 
   static Future<void> deleteTask(String id) {
@@ -100,12 +121,16 @@ class FirebaseManager {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       // if (credential.user!.emailVerified) {
-        onSuccess();
+      onSuccess();
       // } else {
       //   onError("Email is Not verified , please Check your mail and verify");
       // }
     } on FirebaseAuthException catch (e) {
       onError("Email or password is not valid");
     }
+  }
+
+  static Future<void> logOUt() {
+    return FirebaseAuth.instance.signOut();
   }
 }

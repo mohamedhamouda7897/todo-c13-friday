@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_c13_friday/firebase/firebase_manager.dart';
+import 'package:todo_c13_friday/providers/AuthProvider.dart';
 import 'package:todo_c13_friday/screens/home/home.dart';
 import 'package:todo_c13_friday/screens/register_screen.dart';
 
@@ -15,6 +17,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var authProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -44,18 +47,18 @@ class LoginScreen extends StatelessWidget {
                       .copyWith(color: Theme.of(context).focusColor),
                   prefixIcon: Icon(Icons.email),
                   border: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(width: 2, color: Theme.of(context).focusColor),
+                    borderSide: BorderSide(
+                        width: 2, color: Theme.of(context).focusColor),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(width: 2, color: Theme.of(context).focusColor),
+                    borderSide: BorderSide(
+                        width: 2, color: Theme.of(context).focusColor),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(width: 2, color: Theme.of(context).focusColor),
+                    borderSide: BorderSide(
+                        width: 2, color: Theme.of(context).focusColor),
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
@@ -80,18 +83,18 @@ class LoginScreen extends StatelessWidget {
                   prefixIcon: Icon(Icons.lock),
                   suffixIcon: Icon(Icons.remove_red_eye_outlined),
                   border: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(width: 2, color: Theme.of(context).focusColor),
+                    borderSide: BorderSide(
+                        width: 2, color: Theme.of(context).focusColor),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(width: 2, color: Theme.of(context).focusColor),
+                    borderSide: BorderSide(
+                        width: 2, color: Theme.of(context).focusColor),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(width: 2, color: Theme.of(context).focusColor),
+                    borderSide: BorderSide(
+                        width: 2, color: Theme.of(context).focusColor),
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
@@ -113,9 +116,10 @@ class LoginScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   FirebaseManager.login(
-                      emailController.text, passwordController.text, () {
+                      emailController.text, passwordController.text, () async {
                     Navigator.pop(context);
 
+                    await authProvider.initUser();
                     Navigator.pushNamedAndRemoveUntil(
                       context,
                       HomeScreen.routeName,

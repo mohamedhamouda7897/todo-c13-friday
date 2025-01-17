@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_c13_friday/firebase/firebase_manager.dart';
@@ -186,6 +187,7 @@ class CreateEvent extends StatelessWidget {
                           },
                         );
                         TaskModel model = TaskModel(
+                            userId: FirebaseAuth.instance.currentUser!.uid,
                             title: titleController.text,
                             description: descriptionController.text,
                             category: provider.selectedCategoryName,
