@@ -99,11 +99,11 @@ class FirebaseManager {
       onLoading();
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      if (credential.user!.emailVerified) {
+      // if (credential.user!.emailVerified) {
         onSuccess();
-      } else {
-        onError("Email is Not verified , please Check your mail and verify");
-      }
+      // } else {
+      //   onError("Email is Not verified , please Check your mail and verify");
+      // }
     } on FirebaseAuthException catch (e) {
       onError("Email or password is not valid");
     }
