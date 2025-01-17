@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_c13_friday/firebase/firebase_manager.dart';
+import 'package:todo_c13_friday/models/task_model.dart';
 import 'package:todo_c13_friday/screens/home/tabs/home_tab/event_item.dart';
 
 class HomeTab extends StatelessWidget {
@@ -89,17 +92,24 @@ class HomeTab extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView.separated(
-          separatorBuilder: (context, i) => SizedBox(
-            height: 24,
-          ),
-          itemBuilder: (context, index) {
-            return EventItem();
-          },
-          itemCount: 20,
-        ),
+      body: StreamBuilder<QuerySnapshot<TaskModel>>(
+        stream: FirebaseManager.getEvents(),
+        builder: (context, snapshot) {
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ListView.separated(
+              separatorBuilder: (context, i) => SizedBox(
+                height: 24,
+              ),
+              itemBuilder: (context, index) {
+                return EventItem(
+                  model: snapshot.data!.docs[index].data(),
+                );
+              },
+              itemCount: snapshot.data?.docs.length ?? 0,
+            ),
+          );
+        },
       ),
     );
   }

@@ -14,21 +14,15 @@ class LightTheme extends BaseTheme {
 
   @override
   ThemeData get themeData => ThemeData(
-
         primaryColor: primaryColor,
         focusColor: Color(0xFF7B7B7B),
         scaffoldBackgroundColor: backgroundColor,
-        floatingActionButtonTheme: FloatingActionButtonThemeData(
-          backgroundColor: primaryColor,
 
-          shape: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(35),
-            borderSide: BorderSide(
-              color: Colors.white,
-              width: 4
-            )
-          )
-        ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+            backgroundColor: primaryColor,
+            shape: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(35),
+                borderSide: BorderSide(color: Colors.white, width: 4))),
         appBarTheme:
             AppBarTheme(centerTitle: true, backgroundColor: backgroundColor),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CreateEventProvider extends ChangeNotifier{
+class CreateEventProvider extends ChangeNotifier {
   List<String> eventCategories = [
     "birthday",
     "book_club",
@@ -13,11 +13,19 @@ class CreateEventProvider extends ChangeNotifier{
     "holiday",
   ];
 
-  int selectedCategory=0;
+  int selectedCategory = 0;
+  DateTime selectedDate = DateTime.now();
 
+  String get selectedCategoryName => eventCategories[selectedCategory];
 
-  changeCategory(int index){
-    selectedCategory=index;
+  changeDate(DateTime date) {
+    selectedDate = date;
+
+    notifyListeners();
+  }
+
+  changeCategory(int index) {
+    selectedCategory = index;
     notifyListeners();
   }
 }
