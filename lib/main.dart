@@ -22,7 +22,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await FirebaseFirestore.instance.disableNetwork();
+  // await FirebaseFirestore.instance.enableNetwork();
   runApp(
     ChangeNotifierProvider(
       create: (context) => MyProvider(),
