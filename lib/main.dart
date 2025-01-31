@@ -12,7 +12,7 @@ import 'package:todo_c13_friday/providers/my_provider.dart';
 import 'package:todo_c13_friday/screens/create_event.dart';
 import 'package:todo_c13_friday/screens/home/home.dart';
 import 'package:todo_c13_friday/screens/introduction_screen.dart';
-import 'package:todo_c13_friday/screens/login_screen.dart';
+import 'package:todo_c13_friday/login/login_screen.dart';
 import 'package:todo_c13_friday/screens/register_screen.dart';
 import 'package:todo_c13_friday/theme/dark_theme.dart';
 import 'package:todo_c13_friday/theme/light_theme.dart';

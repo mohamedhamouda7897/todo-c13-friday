@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:todo_c13_friday/firebase/firebase_manager.dart';
 import 'package:todo_c13_friday/screens/home/home.dart';
-import 'package:todo_c13_friday/screens/login_screen.dart';
+import 'package:todo_c13_friday/login/login_screen.dart';
 
 class RegisterScreen extends StatelessWidget {
   static const String routeName = "RegisterScreen";
